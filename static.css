@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap');
+
+:root {
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* *, *::after, *::before {
+  outline: 1px solid lime;
+} */
+
+* {
+  font-family: Quicksand, sans-serif;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: 1px solid #CE66FF;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(130deg, rgb(24, 25, 26) 0%, rgb(39, 39, 40) 100%);
+  color: #FFF;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rammetto-one-regular {
+  font-family: "Rammetto One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.logo {
+    color: #FFF;
+    font-size: 40px;
+    margin: 0px;
+    background: linear-gradient(90deg, #CE66FF, #FE983B);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+header a {
+    text-decoration: none;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#not-working main,
+#credits main,
+#feedback main {
+    align-items: flex-start !important;
+    flex-direction: unset !important;
+}
+
+article {
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    padding: 20px;
+}
+
+#not-working article,
+#credits article,
+#feedback article {
+    max-width: 800px;
+    margin: unset !important;
+}
+
+#feedback article {
+    gap: 16px;
+}
+
+#feedback article > p {
+    margin-top: 32px;
+}
+
+a {
+    color: #CE66FF;
+    font-weight: 600;
+}
+
+p {
+    line-height: 1.6em;
+    margin: 0;
+}
+
+ol {
+    line-height: 1.6em;
+    margin: 0;
+    padding-left: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-bottom: 8px;
+}
+
+#about #image-container {
+    width: 100%;
+    margin-top: 24px;
+}
+
+#not-working ol li+li {
+    margin-top: 32px;
+}
+
+#credits ol li+li {
+    margin-top: 56px;
+}
+
+#feedback ol li+li {
+    margin-top: 24px;
+}
+
+#credits ol {
+    margin-top: 32px;
+}
+
+#credits ol {
+    list-style-type: none;
+}
+
+#credits .credit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#credits .credit .person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#credits .credit .person .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#credits .credit .person strong {
+    font-size: 24px;
+}
+
+#credits .credit .person img {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 50%;
+    margin: 0px;
+}
+
+.snapnostr-qr-container svg {
+    border-radius: 8px;
+}
+
+code {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1024px) {
+    main {
+        flex-direction: column-reverse;
+    }
+
+    main aside img {
+        display: block;
+        width: 80%;
+        margin: auto;
+        margin-top: 24px;
+    }
+
+    main article {
+        padding: 20px;
+        gap: 12px;
+    }
+
+    main article img {
+        width: 90%;
+        display: block;
+        margin: auto;
+    }
+}
