@@ -394,7 +394,9 @@ Error generating stack: `+b.message+`
     align-items: center;
     text-decoration: none;
     color: inherit;
-`,HELP_ITEMS=[{text:"What's this?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"/about"},{text:"What's Nostr?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"https://nostr.com"},{text:"Not working?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"/not-working"},{text:"Credits",icon:jsxRuntimeExports.jsx(HeartIcon2,{}),link:"/credits"},{text:"Feedback",icon:jsxRuntimeExports.jsx(Mail,{}),link:"/feedback"},{text:"Donate",icon:jsxRuntimeExports.jsx(Bitcoin,{}),link:"/donate"},{text:"Github",icon:jsxRuntimeExports.jsx(Github,{}),link:"https://github.com/djhemath/snap-nostr"}];function HelpButton(){const[e,s]=reactExports.useState(!1),a=reactExports.useRef(null),c=reactExports.useRef(null);reactExports.useEffect(()=>{function b(tt){a.current&&!a.current.contains(tt.target)&&c.current&&!c.current.contains(tt.target)&&s(!1)}return document.addEventListener("click",tt=>b(tt)),()=>{document.removeEventListener("click",b)}},[]);const h=()=>{s(!1)};return jsxRuntimeExports.jsxs(HelpButtonContainer,{children:[jsxRuntimeExports.jsx(StyledHelpButton,{ref:c,onClick:()=>s(b=>!b),className:"rammetto-one-regular",children:"?"}),jsxRuntimeExports.jsx(HelpContainer,{ref:a,style:{transform:e?"translateY(0)":"",opacity:e?1:0,zIndex:e?1:-1},children:HELP_ITEMS.map(b=>jsxRuntimeExports.jsx(HelpItem,{onClick:()=>h(),children:jsxRuntimeExports.jsxs(HelpAnchor,{href:b.link,target:"_blank",children:[b.icon,jsxRuntimeExports.jsx("span",{children:b.text})]})}))})]})}const StyledLogo=dt.h1`
+`,HELP_ITEMS=[{text:"What's this?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"/about"},{text:"What's Nostr?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"https://nostr.com"},{text:"Not working?",icon:jsxRuntimeExports.jsx(QuestionMark,{}),link:"/not-working"},{text:"Credits",icon:jsxRuntimeExports.jsx(HeartIcon2,{}),link:"/credits"},{text:"Feedback",icon:jsxRuntimeExports.jsx(Mail,{}),link:"/feedback"},{text:"Donate",icon:jsxRuntimeExports.jsx(Bitcoin,{}),link:"/donate"},{text:"Github",icon:jsxRuntimeExports.jsx(Github,{}),link:"https://github.com/djhemath/snap-nostr"}];function HelpButton(){const[e,s]=reactExports.useState(!1),a=reactExports.useRef(null),c=reactExports.useRef(null);reactExports.useEffect(()=>{function b(tt){a.current&&!a.current.contains(tt.target)&&c.current&&!c.current.contains(tt.target)&&s(!1)}return document.addEventListener("click",tt=>b(tt)),()=>{document.removeEventListener("click",b)}},[]);const h=()=>{s(!1)};return jsxRuntimeExports.jsxs(HelpButtonContainer,{children:[jsxRuntimeExports.jsx(StyledHelpButton,{ref:c,onClick:()=>s(b=>!b),className:"rammetto-one-regular",children:"?"}),jsxRuntimeExports.jsx(HelpContainer,{ref:a,style:{transform:e?"translateY(0)":"",opacity:e?1:0,zIndex:e?1:-1},children:HELP_ITEMS.map(b=>jsxRuntimeExports.jsx(HelpItem,{onClick:()=>h(),children:jsxRuntimeExports.jsxs(HelpAnchor,{href:b.link,target:"_blank",children:[b.icon,jsxRuntimeExports.jsx("span",{children:b.text})]})}))})]})}const LogoContainer=dt.div`
+    position: relative;
+`,StyledLogo=dt.h1`
     color: #FFF;
     font-size: 40px;
     margin: 0px;
@@ -403,7 +405,20 @@ Error generating stack: `+b.message+`
     -webkit-text-fill-color: transparent;
     user-select: none;
     -webkit-user-select: none;
-`;function Logo(){return jsxRuntimeExports.jsx(StyledLogo,{className:"rammetto-one-regular",children:"SnapNostr"})}const SearchBarWrapper=dt.div`
+`,Beta=dt.small`
+    color: #FFF;
+    font-size: 12px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #CE66FF, #FE983B);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+`;function Logo(){return jsxRuntimeExports.jsxs(LogoContainer,{children:[jsxRuntimeExports.jsx(StyledLogo,{className:"rammetto-one-regular",children:"SnapNostr"}),jsxRuntimeExports.jsx(Beta,{children:"BETA"})]})}const SearchBarWrapper=dt.div`
     display: flex;
     flex-direction: column;
     position: relative;
