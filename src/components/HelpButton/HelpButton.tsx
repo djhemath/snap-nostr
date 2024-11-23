@@ -4,36 +4,43 @@ import { HelpAnchor, HelpButtonContainer, HelpContainer, HelpItem, StyledHelpBut
 
 const HELP_ITEMS = [
     {
+        id: 1,
         text: "What's this?",
         icon: <QuestionMark />,
         link: '/about',
     },
     {
+        id: 2,
         text: "What's Nostr?",
         icon: <QuestionMark />,
         link: 'https://nostr.com',
     },
     {
+        id: 3,
         text: "Not working?",
         icon: <QuestionMark />,
         link: '/not-working',
     },
     {
+        id: 4,
         text: "Credits",
         icon: <HeartIcon2 />,
         link: '/credits',
     },
     {
+        id: 5,
         text: "Feedback",
         icon: <Mail />,
         link: '/feedback',
     },
     {
+        id: 6,
         text: "Donate",
         icon: <Bitcoin />,
         link: '/donate',
     },
     {
+        id: 7,
         text: "Github",
         icon: <Github />,
         link: 'https://github.com/djhemath/snap-nostr',
@@ -85,7 +92,7 @@ export function HelpButton() {
             >
                 {
                     HELP_ITEMS.map(item => (
-                        <HelpItem onClick={() => onHelpItemClick()}>
+                        <HelpItem onClick={() => onHelpItemClick()} key={item.id}>
                             <HelpAnchor
                                 href={item.link}
                                 target="_blank"

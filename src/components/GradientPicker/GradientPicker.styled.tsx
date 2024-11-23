@@ -31,7 +31,7 @@ export const GradientPickerStyled = styled.div`
     width: 300px;
 `;
 
-export const GradientContainer = styled.button`
+export const GradientContainer = styled.div`
     border: none;
     cursor: pointer;
     background: transparent;

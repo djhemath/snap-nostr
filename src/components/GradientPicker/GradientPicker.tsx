@@ -12,7 +12,7 @@ export function GradientPicker({
         <GradientPickerStyled className="color-picker">
             {
                 Object.keys(GRADIENTS).map((gradientKey) => (
-                    <GradientContainer aria-label="Gradient buton" onClick={() => onGradientChange(gradientKey as GRADIENT)}>
+                    <GradientContainer aria-label="Gradient buton" onClick={() => onGradientChange(gradientKey as GRADIENT)} key={gradientKey}>
                         <Gradient $background={GRADIENTS[gradientKey as GRADIENT]} $isSelected={gradient === gradientKey} />
                         <GradientName>{gradientKey}</GradientName>
                     </GradientContainer>
