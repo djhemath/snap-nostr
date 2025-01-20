@@ -100,5 +100,13 @@
             </ol>
         </article>
     </main>
+
+    <script type="module" src="/assets/js/mixpanelSetup.js"></script>
+    <script type="module">
+        if(window.mixpanel) {
+            window.mixpanel.track("PAGE_VIEWED", { page : "/credits" });
+        }
+    </script>
+    
 </body>
 </html>
