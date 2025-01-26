@@ -59,7 +59,6 @@ export const HelpContainer = styled.ul`
 `;
 
 export const HelpItem = styled.li`
-    padding: 10px;
     color: #FFF;
     transition: background-color 0.2s;
     border-radius: 8px;
@@ -86,6 +85,7 @@ export const HelpItem = styled.li`
 `;
 
 export const HelpAnchor = styled.a`
+    padding: 10px;
     display: flex;
     gap: 12px;
     align-items: center;
