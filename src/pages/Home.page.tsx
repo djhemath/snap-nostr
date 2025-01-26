@@ -31,7 +31,7 @@ function HomePage() {
         downloadImage("nostr-note", dataURL)
       ).finally(() => {
         setIsDownloading(false);
-        toast.success('Image ready for download!');
+        toast.success('Image Downloaded!');
         trackEvent("IMAGE_DOWNLOADED", note.postId);
       });
     }
