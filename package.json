@@ -45,6 +45,7 @@
   "engines": {
     "node": ">=21.1.0"
   },
+  "engineStrict": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djhemath/snap-nostr.git"
