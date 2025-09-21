@@ -15,7 +15,7 @@
   "dependencies": {
     "@noble/curves": "^1.6.0",
     "@noble/hashes": "^1.5.0",
-    "@nostr-dev-kit/ndk": "^2.10.0",
+    "@nostr-dev-kit/ndk": "^2.14.35",
     "@scure/base": "^1.1.9",
     "dayjs": "^1.11.13",
     "html-to-image": "^1.11.11",
