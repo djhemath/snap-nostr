@@ -1,5 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from "react";
-import { validateAndGetMatchedNostrEventBech32 } from "../../../shared/nostr.util";
+import { validateAndGetMatchedNostrEventBech32OrRaw } from "../../../shared/nostr.util";
 import { useNostrEvent } from "../../../hooks/use-nostr-event";
 import { useShakeAnimation } from "../../../hooks/use-shake-animation";
 
@@ -11,13 +11,13 @@ export type HelperMessage = {
 const pressEnterToFindNote = 'Press Enter to find note';
 
 export function useSearchInput() {
-    const [ bech32, setBech32 ] = useState('');
+    const [ bech32OrRawId, setBech32OrRawId ] = useState('');
     const [ helperMessage, setHelperMessage ] = useState<HelperMessage>({
         type: 'info',
         message: ''
     });
 
-    const { isError, isLoading } = useNostrEvent(bech32);
+    const { isError, isLoading } = useNostrEvent(bech32OrRawId);
 
     const { isAnimate, addShakeAnimation } = useShakeAnimation(isError);
 
@@ -32,15 +32,15 @@ export function useSearchInput() {
         if(isError) {
             setHelperMessage({
                 type: 'error',
-                message: 'Something went wrong!',
+                message: 'Something went wrong, please check the pasted ID or URL!',
             });
         }
     },[isError]);
 
     function onText(inputValue: string) {
-        const bech32 = validateAndGetMatchedNostrEventBech32(inputValue);
+        const bech32OrRaw = validateAndGetMatchedNostrEventBech32OrRaw(inputValue);
 
-        if(!bech32) {
+        if(!bech32OrRaw) {
             addShakeAnimation();
 
             setHelperMessage({
@@ -48,7 +48,7 @@ export function useSearchInput() {
                 message: 'Invalid note ID or invalid URL!',
             });
         } else {
-            setBech32(bech32);
+            setBech32OrRawId(bech32OrRaw);
         }
     }
 
