@@ -19,8 +19,6 @@ export function useNostrEvent(bech32: string) {
             setIsLoading(true);
 
             try {
-                console.log({relays});
-
                 // TODO: Come up with a solution to prevent app from stalling if any of the relays are down
                 const ndk = new NDK({
                     explicitRelayUrls: relays,

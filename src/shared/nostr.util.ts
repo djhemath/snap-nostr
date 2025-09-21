@@ -182,7 +182,11 @@ export function getNip19Bech32RegexMatch(text: string) {
   return text.match(nip19.BECH32_REGEX);
 }
 
-export function validateAndGetMatchedNostrEventBech32(text: string) {
+export function getHexRegexMatch(text: string) {
+  return text.match(/^[0-9a-f]{64}$/);
+}
+
+export function validateAndGetMatchedNostrEventBech32OrRaw(text: string) {
   if(!text) return false;
 
   let bech32 = ''
@@ -208,6 +212,12 @@ export function validateAndGetMatchedNostrEventBech32(text: string) {
       bech32 = match[0];
     }
   } else {
+    // Raw event ID
+    if(text.length === 64 && getHexRegexMatch(text)) {
+      bech32 = text;
+      return bech32;
+    }
+
     const match = getNip19Bech32RegexMatch(text);
 
     if(match !== null) {
@@ -234,6 +244,9 @@ export function validateAndGetMatchedNostrEventBech32(text: string) {
 
 export async function getPostDetails(ndk: NDK, noteId: string) {
   const post = await ndk.fetchEvent(noteId);
+  if(!post) {
+    throw new Error('Invalid post');
+  }
   const author = await post?.author.fetchProfile();
   const stats = await getPostStats(ndk, post?.id || '');
 
@@ -245,9 +258,11 @@ export async function getPostDetails(ndk: NDK, noteId: string) {
 }
 
 export async function getPostStats(ndk: NDK, postId: string) {
+  const timeNow = Math.floor(Date.now() / 1000);
   const reposts = await ndk.fetchEvents({
     kinds: [NDKKind.Repost],
-    '#e': [postId || '']
+    '#e': [postId || ''],
+    until: timeNow,
   });
 
   // Only take the count of direct reposts
@@ -259,12 +274,14 @@ export async function getPostStats(ndk: NDK, postId: string) {
 
   const likes = await ndk.fetchEvents({
     kinds: [NDKKind.Reaction],
-    '#e': [postId || '']
+    '#e': [postId || ''],
+    until: timeNow,
   });
 
   const zaps = await ndk.fetchEvents({
     kinds: [NDKKind.Zap],
-    '#e': [postId || '']
+    '#e': [postId || ''],
+    until: timeNow,
   });
 
   const zapAmount = Array.from(zaps).reduce((prev, curr) => {
@@ -298,7 +315,8 @@ export async function getPostStats(ndk: NDK, postId: string) {
 
   const replies = await ndk.fetchEvents({
     kinds: [NDKKind.Text],
-    '#e': [postId || '']
+    '#e': [postId || ''],
+    until: timeNow,
   });
 
   // Only take the direct replies
