@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import NDK from "@nostr-dev-kit/ndk";
 
@@ -8,9 +8,8 @@ import { useRelaysContext } from "../contexts/relays.context";
 
 
 export function useNostrEvent(bech32: string) {
-    const [ isError, setIsError ] = useState(false);
 
-    const { setNote, setNoteLoading, isLoading } = useNoteContext();
+    const { setNote, setNoteLoading, isLoading, setIsError, isError } = useNoteContext();
     const { relays } = useRelaysContext();
 
     useEffect(() => {

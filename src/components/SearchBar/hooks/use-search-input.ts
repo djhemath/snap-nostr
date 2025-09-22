@@ -3,6 +3,7 @@ import { validateAndGetMatchedNostrEventBech32OrRaw } from "../../../shared/nost
 import { useNostrEvent } from "../../../hooks/use-nostr-event";
 import { useShakeAnimation } from "../../../hooks/use-shake-animation";
 import { getNoteIDFromURL, updateNoteIDInTheURL } from "../../../shared/utils";
+import { useNoteContext } from "../../../contexts/note.context";
 
 export type HelperMessage = {
     type: 'error' | 'info';
@@ -21,6 +22,7 @@ export function useSearchInput(
     });
 
     const { isError, isLoading } = useNostrEvent(bech32OrRawId);
+    const { setIsError } = useNoteContext()
 
     const { isAnimate, addShakeAnimation } = useShakeAnimation(isError);
 
@@ -70,6 +72,7 @@ export function useSearchInput(
         if(!bech32OrRaw) {
             addShakeAnimation();
 
+            setIsError(true);
             setHelperMessage({
                 type: 'error',
                 message: 'Invalid note ID or invalid URL!',
