@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { validateAndGetMatchedNostrEventBech32OrRaw } from "../../../shared/nostr.util";
 import { useNostrEvent } from "../../../hooks/use-nostr-event";
 import { useShakeAnimation } from "../../../hooks/use-shake-animation";
+import { getNoteIDFromURL, updateNoteIDInTheURL } from "../../../shared/utils";
 
 export type HelperMessage = {
     type: 'error' | 'info';
@@ -10,7 +11,9 @@ export type HelperMessage = {
 
 const pressEnterToFindNote = 'Press Enter to find note';
 
-export function useSearchInput() {
+export function useSearchInput(
+    inputRef: React.RefObject<HTMLInputElement>,
+) {
     const [ bech32OrRawId, setBech32OrRawId ] = useState('');
     const [ helperMessage, setHelperMessage ] = useState<HelperMessage>({
         type: 'info',
@@ -20,6 +23,28 @@ export function useSearchInput() {
     const { isError, isLoading } = useNostrEvent(bech32OrRawId);
 
     const { isAnimate, addShakeAnimation } = useShakeAnimation(isError);
+
+    useEffect(() => {
+        const handleLocationChange = () => {
+            const _bech32OrRawId = getNoteIDFromURL();
+
+            if (_bech32OrRawId) {
+                if (inputRef.current) {
+                    inputRef.current.value = _bech32OrRawId;
+                }
+                onText(_bech32OrRawId);
+            }
+        };
+
+        handleLocationChange();
+
+        // Listen for back/forward navigation
+        window.addEventListener("popstate", handleLocationChange);
+
+        return () => {
+            window.removeEventListener("popstate", handleLocationChange);
+        };
+    }, []);
 
     useEffect(() => {
         setHelperMessage({
@@ -49,6 +74,7 @@ export function useSearchInput() {
             });
         } else {
             setBech32OrRawId(bech32OrRaw);
+            updateNoteIDInTheURL(bech32OrRaw);
         }
     }
 
@@ -110,5 +136,6 @@ export function useSearchInput() {
         onInputChange,
         onInputBlur,
         onInputFocus,
+        bech32OrRawId,
     };
 }

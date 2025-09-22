@@ -2,6 +2,33 @@ import styled from "styled-components";
 import { AbsoluteFull, tablet } from "../../shared/Global.styled";
 import { isSafari } from "../../shared/utils";
 
+interface SkeletonProps {
+  isLoading?: boolean;
+}
+
+const skeletonStyle = `
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 25%,
+    rgba(0, 0, 0, 0.1) 37%,
+    rgba(0, 0, 0, 0.05) 63%
+  );
+
+  background-size: 200% 100%;
+  border-radius: 4px;
+  color: transparent;
+  animation: shimmer 1.8s ease-in-out infinite;
+`;
+
 export const CanvasContainer = styled.div`
   flex: 1;
   height: 100%;
@@ -224,55 +251,52 @@ export const AuthorInfo = styled.div`
   align-items: center;
 `;
 
-export const AuthorImage = styled.img`
-  width: 3em;
-  height: 3em;
-  margin-right: 0.75em;
-  object-fit: cover;
-  border-radius: 50%;
-`;
-
 export const AuthorNameAndNip05Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const AuthorNameContainer = styled.div`
-    display: flex;
-    gap: 2px;
+  display: flex;
+  gap: 2px;
 `;
 
-export const AuthorName = styled.div`
+export const AuthorName = styled.div<SkeletonProps>`
   font-weight: 600;
-  color: #111;
-  line-height: 1.2;
-  display: flex;
   font-size: 18px;
+  line-height: 1.2;
+  color: #111;
   white-space: nowrap;
+  ${({ isLoading }) => isLoading && skeletonStyle}
+  min-width: ${({ isLoading }) => (isLoading ? '100px' : 'auto')};
+  min-height: ${({ isLoading }) => (isLoading ? '18px' : 'auto')};
 `;
 
 export const VerificationCheckContainer = styled.div`
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
+`;
+
+export const AuthorNip05 = styled.div<SkeletonProps>`
+  font-weight: 400;
+  font-size: 14px;
+  display: flex;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+  white-space: nowrap;
+  ${({ isLoading }) => isLoading && skeletonStyle}
+  min-width: ${({ isLoading }) => (isLoading ? '80px' : 'auto')};
+  min-height: ${({ isLoading }) => (isLoading ? '14px' : 'auto')};
 `;
 
 export const VerificationIconContainer = styled.div`
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-inline: 4px;
-`;
-
-export const AuthorNip05 = styled.div`
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.5);
-  line-height: 1.2;
+  width: 20px;
+  height: 20px;
   display: flex;
-  font-size: 14px;
-  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-inline: 4px;
 `;
 
 export const NostrBrand = styled.div`
@@ -288,32 +312,58 @@ export const NostrName = styled.span<{$color: string}>`
   color: ${props => props.$color};
 `;
 
-export const TweetContent = styled.div`
+export const TweetContent = styled.div<SkeletonProps>`
   font-size: 1.4em;
-  color: #111;
   line-height: 1.5;
   margin-bottom: 1em;
-  pointer-events: none;
   font-weight: 500;
   word-break: break-word;
+  pointer-events: none;
+  color: #111;
+
+  ${({ isLoading }) => isLoading && skeletonStyle}
+  min-width: ${({ isLoading }) => (isLoading ? '200px' : 'auto')};
+  min-height: ${({ isLoading }) => (isLoading ? '8em' : 'auto')};
 `;
 
-export const TweetTimestamp = styled.div`
+export const TweetTimestamp = styled.div<SkeletonProps>`
   color: rgba(0, 0, 0, 0.5);
   padding-bottom: 0.7em;
   font-weight: 500;
+
+  ${({ isLoading }) => isLoading && skeletonStyle}
+  ${({ isLoading }) => isLoading && `max-width: 40%; max-height: 26px`}
 `;
 
 export const TweetStats = styled.div`
   display: flex;
+  gap: 1em;
 `;
 
-export const StatItem = styled.div`
+export const StatItem = styled.div<SkeletonProps>`
   color: rgba(0, 0, 0, 0.7);
-  margin-right: 1em;
 
-  span {
+  span:first-child {
     color: #111;
     font-weight: 600;
   }
+
+  ${({ isLoading }) =>
+    isLoading &&
+    `
+      display: flex;
+      margin-top: 12px;
+      gap: 4px;
+      align-items: center;
+
+      span:first-child {
+        display: none;
+      }
+
+      span {
+        ${skeletonStyle}
+        width: 75px;
+        min-height: 14px;
+      }
+    `}
 `;

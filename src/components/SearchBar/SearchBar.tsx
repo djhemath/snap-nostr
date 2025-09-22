@@ -6,6 +6,8 @@ import { useSearchInput } from "./hooks/use-search-input";
 import { ErrorText, HelperText } from "../../shared/Global.styled";
 
 export function SearchBar() {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const {
         helperMessage,
         isLoading,
@@ -15,9 +17,7 @@ export function SearchBar() {
         onInputFocus,
         onPaste,
         onSubmit,
-    } = useSearchInput();
-
-    const inputRef = useRef<HTMLInputElement>(null);
+    } = useSearchInput(inputRef);
 
     if(inputRef.current && isLoading) {
         inputRef.current.blur();

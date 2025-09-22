@@ -8,7 +8,7 @@ import { Canvas } from "../components/Canvas/Canvas";
 import { Header } from "../components/Header/Header";
 import { Toolbar } from "../components/Toolbar/Toolbar";
 import { HomePageContainer, MainSection } from "./HomePage.styled";
-import { copyDataURL, downloadImage, getDataURLFromHTMLDOM } from "../shared/utils";
+import { copyDataURL, downloadImage, getDataURLFromHTMLDOM, getNoteIDFromURL } from "../shared/utils";
 import { useNoteContext } from "../contexts/note.context";
 import { GRADIENT, GRADIENTS, initialGradient, NOSTR_BRANDING_COLORS } from "../shared/constants";
 import { trackEvent } from "../shared/mixpanel.util";
@@ -20,7 +20,7 @@ function HomePage() {
   const [ isDownloading, setIsDownloading ] = useState(false);
   const [ isCopying, setIsCopying ] = useState(false);
 
-  const { note } = useNoteContext();
+  const { note, isLoading } = useNoteContext();
 
   function onDownload() {
     setIsDownloading(true);
@@ -87,6 +87,7 @@ function HomePage() {
           showResponse={showResponse}
           gradient={GRADIENTS[selectedGradient]}
           nostrBrandingColor={NOSTR_BRANDING_COLORS[selectedGradient]}
+          isLoading={isLoading}
         />
       </MainSection>
 

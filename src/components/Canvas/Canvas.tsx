@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 
 import { NostrichHead, VerificationCheck } from "../Icon/Icon";
 import {
-  AuthorImage,
   AuthorInfo,
   AuthorName,
   AuthorNameAndNip05Container,
@@ -35,6 +34,7 @@ import {
 import useResizable from "../../hooks/use-resizable";
 import { defaultImgProxy, NostrNote } from "../../shared/constants";
 import { proxyImg, toReadableStatsFormat } from "../../shared/utils";
+import { AuthorAvatar } from "./components/AuthorAvatar/AuthorAvatar";
 
 export type CanvasProps = {
   noteHTML: string,
@@ -42,6 +42,7 @@ export type CanvasProps = {
   showResponse: boolean,
   gradient: string,
   nostrBrandingColor: string,
+  isLoading: boolean,
 };
 
 export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({
@@ -50,6 +51,7 @@ export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({
   showResponse,
   gradient,
   nostrBrandingColor,
+  isLoading,
 }, ref) => {
   const cardWrapperRef = useRef<HTMLDivElement>(null);
   const leftResizeKnob = useRef<HTMLDivElement>(null);
@@ -101,17 +103,17 @@ export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({
                 <InnerGradient />
                 <CardHeader>
                   <AuthorInfo>
-                    <AuthorImage src={proxyImg(note.author?.image || '', defaultImgProxy)} alt="Image of the Nostr note author" />
+                    <AuthorAvatar isLoading={isLoading} src={proxyImg(note.author?.image || '', defaultImgProxy)} alt="Image of the Nostr note author" />
                     <AuthorNameAndNip05Container>
                       <AuthorNameContainer>
-                          <AuthorName>{note.author?.name}</AuthorName>
+                          <AuthorName isLoading={isLoading}>{note.author?.name}</AuthorName>
                           <VerificationCheckContainer>
                               <VerificationIconContainer>
                                   <VerificationCheck />
                               </VerificationIconContainer>
                           </VerificationCheckContainer> 
                       </AuthorNameContainer>
-                      <AuthorNip05>{note.author?.nip05}</AuthorNip05>
+                      <AuthorNip05 isLoading={isLoading}>{note.author?.nip05}</AuthorNip05>
                     </AuthorNameAndNip05Container>
                   </AuthorInfo>
 
@@ -120,26 +122,27 @@ export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({
                     <NostrName $color={nostrBrandingColor}>Nostr</NostrName>
                   </NostrBrand>
                 </CardHeader>
-                <TweetContent dangerouslySetInnerHTML={{
+
+                <TweetContent isLoading={isLoading} dangerouslySetInnerHTML={{
                   __html: noteHTML,
                 }} />
-                <TweetTimestamp>{dayjs(note.createdAt * 1000).format('hh:mm A')} · {dayjs(note.createdAt * 1000).format('DD MMM, YYYY')}</TweetTimestamp>
+                <TweetTimestamp isLoading={isLoading}>{dayjs(note.createdAt * 1000).format('hh:mm A')} · {dayjs(note.createdAt * 1000).format('DD MMM, YYYY')}</TweetTimestamp>
                 {
                   !showResponse
                   ? null
                   : (
                     <TweetStats>
-                      <StatItem>
-                        <span>{toReadableStatsFormat(note.replies)}</span> replies
+                      <StatItem isLoading={isLoading}>
+                        <span>{toReadableStatsFormat(note.replies)}</span> <span>replies</span>
                       </StatItem>
-                      <StatItem>
-                        <span>{toReadableStatsFormat(note.zaps)}</span> zaps
+                      <StatItem isLoading={isLoading}>
+                        <span>{toReadableStatsFormat(note.zaps)}</span> <span>zaps</span>
                       </StatItem>
-                      <StatItem>
-                        <span>{toReadableStatsFormat(note.likes)}</span> likes
+                      <StatItem isLoading={isLoading}>
+                        <span>{toReadableStatsFormat(note.likes)}</span> <span>likes</span>
                       </StatItem>
-                      <StatItem>
-                        <span>{toReadableStatsFormat(note.reposts)}</span> reposts
+                      <StatItem isLoading={isLoading}>
+                        <span>{toReadableStatsFormat(note.reposts)}</span> <span>reposts</span>
                       </StatItem>
                     </TweetStats>
                   )
