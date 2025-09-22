@@ -47,10 +47,12 @@ export function useSearchInput(
     }, []);
 
     useEffect(() => {
-        setHelperMessage({
-            type: 'info',
-            message: '',
-        });
+        if(isLoading) {
+            setHelperMessage({
+                type: 'info',
+                message: '',
+            });
+        }
     }, [isLoading]);
 
     useEffect(() => {
