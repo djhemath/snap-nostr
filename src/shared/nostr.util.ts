@@ -5,6 +5,10 @@ import { defaultImgProxy, MILLISATS_PER_SAT } from "./constants";
 import { proxyImg } from "./utils";
 import { decode } from "light-bolt11-decoder";
 
+export function removeNewLineCharactersAtTheEnd(str: string) {
+  return str.replace(/\n+$/, "\n"); // yet keeps exactly one \n at the end
+}
+
 export async function parseText(text: string) {
   const ndk = new NDK({
     explicitRelayUrls: [
@@ -61,10 +65,14 @@ export async function parseText(text: string) {
       const endIndex = startIndex + match.length;
 
       if (startIndex > lastIndex) {
-        result.push({
-          type: "text",
-          value: textContent.substring(lastIndex, startIndex),
-        });
+        const text = textContent.substring(lastIndex, startIndex);
+
+        if(text !== '\n') {
+          result.push({
+            type: "text",
+            value: removeNewLineCharactersAtTheEnd(text),
+          });
+        }
       }
 
       const url = new URL(match);
@@ -94,10 +102,15 @@ export async function parseText(text: string) {
     }
 
     if (lastIndex < textContent.length) {
-      result.push({ type: "text", value: textContent.substring(lastIndex) });
+      const text = textContent.substring(lastIndex);
+      if(text !== '\n') {
+        result.push({ type: "text", value: removeNewLineCharactersAtTheEnd(text) });
+      }
     }
   } else {
-    result.push({ type: "text", value: textContent });
+    if(textContent !== '\n') {
+      result.push({ type: "text", value: removeNewLineCharactersAtTheEnd(textContent) });
+    }
   }
 
   return result;
@@ -125,16 +138,16 @@ export function getHTML(content: any[]) {
 
       switch (item.type) {
         case "image":
-          html.push(`<img style="border-radius: 12px" width="100%" src="${proxyImg(item.value, defaultImgProxy)}" alt="Image embeded in the nostr note">`);
+          html.push(`<img style="border-radius: 6px" width="100%" src="${proxyImg(item.value, defaultImgProxy)}" alt="Image embeded in the nostr note">`);
           mediaCount++;
           break;
         case "gif":
-          html.push(`<img style="border-radius: 12px" width="100%" src="${proxyImg(item.value, defaultImgProxy)}" alt="GIF embeded in the nostr note">`);
+          html.push(`<img style="border-radius: 6px" width="100%" src="${proxyImg(item.value, defaultImgProxy)}" alt="GIF embeded in the nostr note">`);
           mediaCount++;
           break;
         case "video":
           html.push(
-            `<video style="border-radius: 12px" width="100%" src="${item.value}" alt="video embeded in the nostr note"></video>`
+            `<video style="border-radius: 6px" width="100%" src="${item.value}" alt="video embeded in the nostr note"></video>`
           );
           mediaCount++;
           break;
@@ -158,13 +171,20 @@ export function getHTML(content: any[]) {
       const item = html[i];
       if (item.startsWith("<img") || item.startsWith("<video")) {
 
-        // TODO: Use better tags, get only one media element
-        mediaItems.push();
+        mediaItems.push(item);
 
         html.splice(i, 1);
         i--;
       }
     }
+
+    html.push(
+      `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          ${mediaItems.reduce((prev, curr) => prev + curr, '')}
+        </div>
+      `
+    )
   }
 
   const styles = `
