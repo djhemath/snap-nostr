@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { AbsoluteFull, tablet } from "../../shared/Global.styled";
 import { isSafari } from "../../shared/utils";
 
-interface SkeletonProps {
+export interface SkeletonProps {
   isLoading?: boolean;
 }
 
-const skeletonStyle = `
+export const skeletonStyle = `
   @keyframes shimmer {
     0% {
       background-position: 200% 0;
@@ -310,20 +310,6 @@ export const NostrName = styled.span<{$color: string}>`
   font-weight: bold;
   font-size: 12px;
   color: ${props => props.$color};
-`;
-
-export const TweetContent = styled.div<SkeletonProps>`
-  font-size: 1.4em;
-  line-height: 1.5;
-  margin-bottom: 1em;
-  font-weight: 500;
-  word-break: break-word;
-  pointer-events: none;
-  color: #111;
-
-  ${({ isLoading }) => isLoading && skeletonStyle}
-  min-width: ${({ isLoading }) => (isLoading ? '200px' : 'auto')};
-  min-height: ${({ isLoading }) => (isLoading ? '8em' : 'auto')};
 `;
 
 export const TweetTimestamp = styled.div<SkeletonProps>`

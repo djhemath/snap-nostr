@@ -25,7 +25,6 @@ import {
   ResizeKnobPosition,
   ResizeKnobs,
   StatItem,
-  TweetContent,
   TweetStats,
   TweetTimestamp,
   VerificationCheckContainer,
@@ -35,6 +34,7 @@ import useResizable from "../../hooks/use-resizable";
 import { defaultImgProxy, NostrNote } from "../../shared/constants";
 import { proxyImg, toReadableStatsFormat } from "../../shared/utils";
 import { AuthorAvatar } from "./components/AuthorAvatar/AuthorAvatar";
+import { TweetContent } from "./components/TweetContent/TweetContent";
 
 export type CanvasProps = {
   noteHTML: string,
@@ -123,9 +123,7 @@ export const Canvas = forwardRef<HTMLDivElement, CanvasProps>(({
                   </NostrBrand>
                 </CardHeader>
 
-                <TweetContent isLoading={isLoading} dangerouslySetInnerHTML={{
-                  __html: noteHTML,
-                }} />
+                <TweetContent isLoading={isLoading} noteHTML={noteHTML} />
                 <TweetTimestamp isLoading={isLoading}>{dayjs(note.createdAt * 1000).format('hh:mm A')} · {dayjs(note.createdAt * 1000).format('DD MMM, YYYY')}</TweetTimestamp>
                 {
                   !showResponse
