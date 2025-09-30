@@ -4,6 +4,7 @@ import { useNostrEvent } from "../../../hooks/use-nostr-event";
 import { useShakeAnimation } from "../../../hooks/use-shake-animation";
 import { getNoteIDFromURL, updateNoteIDInTheURL } from "../../../shared/utils";
 import { useNoteContext } from "../../../contexts/note.context";
+import { initialNote } from "../../../shared/constants";
 
 export type HelperMessage = {
     type: 'error' | 'info';
@@ -22,7 +23,7 @@ export function useSearchInput(
     });
 
     const { isError, isLoading } = useNostrEvent(bech32OrRawId);
-    const { setIsError } = useNoteContext()
+    const { setIsError, setNote } = useNoteContext()
 
     const { isAnimate, addShakeAnimation } = useShakeAnimation(isError);
 
@@ -34,7 +35,13 @@ export function useSearchInput(
                 if (inputRef.current) {
                     inputRef.current.value = _bech32OrRawId;
                 }
-                onText(_bech32OrRawId);
+                onText(_bech32OrRawId, false);
+            } else {
+                if (inputRef.current) {
+                    inputRef.current.value = '';
+                }
+                setBech32OrRawId('')
+                setNote(initialNote);
             }
         };
 
@@ -66,7 +73,8 @@ export function useSearchInput(
         }
     },[isError]);
 
-    function onText(inputValue: string) {
+    function onText(inputValue: string, updateHistory = true) {
+        setIsError(false);
         const bech32OrRaw = validateAndGetMatchedNostrEventBech32OrRaw(inputValue);
 
         if(!bech32OrRaw) {
@@ -79,7 +87,10 @@ export function useSearchInput(
             });
         } else {
             setBech32OrRawId(bech32OrRaw);
-            updateNoteIDInTheURL(bech32OrRaw);
+
+            if(updateHistory) {
+                updateNoteIDInTheURL(bech32OrRaw);
+            }
         }
     }
 

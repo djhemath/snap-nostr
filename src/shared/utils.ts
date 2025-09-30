@@ -135,5 +135,5 @@ export function getNoteIDFromURL() {
 }
 
 export function updateNoteIDInTheURL(noteID: string) {
-  history.pushState({}, '', `/${noteID}`);
+  history.pushState({ path: noteID }, noteID, `/${noteID}`);
 }
