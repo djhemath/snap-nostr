@@ -31,3 +31,16 @@ export const AuthorImageSkeleton = styled.div`
     }
   }
 `;
+
+export const NostrichContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #DFDFDF;
+  background-color: #000;
+  margin-right: 6px;
+`;
