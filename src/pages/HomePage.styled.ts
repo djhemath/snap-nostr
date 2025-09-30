@@ -29,3 +29,7 @@ export const NoteNotFoundContainer = styled.div`
     width: 100%;
     justify-content: center;
 `
+
+export const Spacer = styled.div`
+    width: 100px;
+`;

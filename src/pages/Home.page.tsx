@@ -7,7 +7,7 @@ import { Canvas } from "../components/Canvas/Canvas";
 // import { Footer } from "../components/Footer/Footer";
 import { Header } from "../components/Header/Header";
 import { Toolbar } from "../components/Toolbar/Toolbar";
-import { HomePageContainer, MainSection, NoteNotFoundContainer } from "./HomePage.styled";
+import { HomePageContainer, MainSection, NoteNotFoundContainer, Spacer } from "./HomePage.styled";
 import { copyDataURL, downloadImage, getDataURLFromHTMLDOM } from "../shared/utils";
 import { useNoteContext } from "../contexts/note.context";
 import { GRADIENT, GRADIENTS, initialGradient, NOSTR_BRANDING_COLORS } from "../shared/constants";
@@ -66,6 +66,8 @@ function HomePage() {
           isDownloading={isDownloading}
           isCopying={isCopying}
         />
+
+        <Spacer />
 
         <ToastContainer
           position="bottom-left"

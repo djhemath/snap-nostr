@@ -16,7 +16,9 @@ export const ToolbarContainer = styled.ul`
     align-items: center;
     gap: 10px;
 
-    position: relative;
+    position: fixed;
+    top: 50vh;
+    transform: translateY(-25vh);
 
     ${tablet(`
         flex-direction: row;
@@ -27,7 +29,7 @@ export const ToolbarContainer = styled.ul`
         gap: 0px;
 
         position: absolute;
-        top: 180px;
+        top: 350px;
 
         & hr {
             width: 1px;
