@@ -122,3 +122,18 @@ export function getBreakpoint() {
 export function isSafari() {
   return (window as any).safari !== undefined;
 }
+
+// Not going with any kinda router, because this is all we need here
+export function getNoteIDFromURL() {
+  const fragments = window.location.pathname.split('/');
+
+  if(fragments.length === 0) {
+    return null;
+  }
+
+  return fragments[1];
+}
+
+export function updateNoteIDInTheURL(noteID: string) {
+  history.pushState({ path: noteID }, noteID, `/${noteID}`);
+}

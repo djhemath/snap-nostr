@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import NDK from "@nostr-dev-kit/ndk";
 
@@ -8,15 +8,13 @@ import { useRelaysContext } from "../contexts/relays.context";
 
 
 export function useNostrEvent(bech32: string) {
-    const [ isLoading, setIsLoading ] = useState(false);
-    const [ isError, setIsError ] = useState(false);
 
-    const { setNote } = useNoteContext();
+    const { setNote, setNoteLoading, isLoading, setIsError, isError } = useNoteContext();
     const { relays } = useRelaysContext();
 
     useEffect(() => {
         async function fetchNote(noteId: string) {
-            setIsLoading(true);
+            setNoteLoading(true);
 
             try {
                 // TODO: Come up with a solution to prevent app from stalling if any of the relays are down
@@ -50,7 +48,7 @@ export function useNostrEvent(bech32: string) {
             } catch(err) {
                 setIsError(true);
             } finally {
-                setIsLoading(false);
+                setNoteLoading(false);
             }
         }
 

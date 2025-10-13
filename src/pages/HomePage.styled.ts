@@ -23,3 +23,13 @@ export const MainSection = styled.article`
         padding: 20px;
     `)}
 `;
+
+export const NoteNotFoundContainer = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`
+
+export const Spacer = styled.div`
+    width: 100px;
+`;

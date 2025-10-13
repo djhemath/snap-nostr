@@ -11,6 +11,8 @@ const existingRelays = getRelaysFromLocalStorage();
 
 function App() {
   const [ note, setNote ] = useState<NostrNote>(initialNote);
+  const [ isNoteLoading, setIsNoteLoading ] = useState<boolean>(false);
+  const [ isError, setIsError ] = useState<boolean>(false);
   const [ relays, setRelays ] = useState<string[]>(existingRelays && existingRelays.length > 0 ? existingRelays : DEFAULT_RELAYS);
 
   useEffect(() => {
@@ -28,6 +30,10 @@ function App() {
       <NoteContext.Provider value={{
         note,
         setNote,
+        isLoading: isNoteLoading,
+        setNoteLoading: setIsNoteLoading,
+        isError,
+        setIsError: setIsError,
       }}>
         <HomePage />
       </NoteContext.Provider>

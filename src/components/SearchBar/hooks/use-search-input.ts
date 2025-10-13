@@ -2,6 +2,9 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { validateAndGetMatchedNostrEventBech32OrRaw } from "../../../shared/nostr.util";
 import { useNostrEvent } from "../../../hooks/use-nostr-event";
 import { useShakeAnimation } from "../../../hooks/use-shake-animation";
+import { getNoteIDFromURL, updateNoteIDInTheURL } from "../../../shared/utils";
+import { useNoteContext } from "../../../contexts/note.context";
+import { initialNote } from "../../../shared/constants";
 
 export type HelperMessage = {
     type: 'error' | 'info';
@@ -10,7 +13,9 @@ export type HelperMessage = {
 
 const pressEnterToFindNote = 'Press Enter to find note';
 
-export function useSearchInput() {
+export function useSearchInput(
+    inputRef: React.RefObject<HTMLInputElement>,
+) {
     const [ bech32OrRawId, setBech32OrRawId ] = useState('');
     const [ helperMessage, setHelperMessage ] = useState<HelperMessage>({
         type: 'info',
@@ -18,14 +23,45 @@ export function useSearchInput() {
     });
 
     const { isError, isLoading } = useNostrEvent(bech32OrRawId);
+    const { setIsError, setNote } = useNoteContext()
 
     const { isAnimate, addShakeAnimation } = useShakeAnimation(isError);
 
     useEffect(() => {
-        setHelperMessage({
-            type: 'info',
-            message: '',
-        });
+        const handleLocationChange = () => {
+            const _bech32OrRawId = getNoteIDFromURL();
+
+            if (_bech32OrRawId) {
+                if (inputRef.current) {
+                    inputRef.current.value = _bech32OrRawId;
+                }
+                onText(_bech32OrRawId, false);
+            } else {
+                if (inputRef.current) {
+                    inputRef.current.value = '';
+                }
+                setBech32OrRawId('')
+                setNote(initialNote);
+            }
+        };
+
+        handleLocationChange();
+
+        // Listen for back/forward navigation
+        window.addEventListener("popstate", handleLocationChange);
+
+        return () => {
+            window.removeEventListener("popstate", handleLocationChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        if(isLoading) {
+            setHelperMessage({
+                type: 'info',
+                message: '',
+            });
+        }
     }, [isLoading]);
 
     useEffect(() => {
@@ -37,18 +73,24 @@ export function useSearchInput() {
         }
     },[isError]);
 
-    function onText(inputValue: string) {
+    function onText(inputValue: string, updateHistory = true) {
+        setIsError(false);
         const bech32OrRaw = validateAndGetMatchedNostrEventBech32OrRaw(inputValue);
 
         if(!bech32OrRaw) {
             addShakeAnimation();
 
+            setIsError(true);
             setHelperMessage({
                 type: 'error',
                 message: 'Invalid note ID or invalid URL!',
             });
         } else {
             setBech32OrRawId(bech32OrRaw);
+
+            if(updateHistory) {
+                updateNoteIDInTheURL(bech32OrRaw);
+            }
         }
     }
 
@@ -110,5 +152,6 @@ export function useSearchInput() {
         onInputChange,
         onInputBlur,
         onInputFocus,
+        bech32OrRawId,
     };
 }
