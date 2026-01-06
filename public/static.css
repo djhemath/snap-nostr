@@ -128,6 +128,43 @@ h2 {
     margin-top: 24px;
 }
 
+#about-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    #nostr-components {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 24px;
+
+        nostr-follow-button {
+            --nostrc-follow-btn-bg: linear-gradient(23deg, #CE66FF, #FE983B);
+            --nostrc-follow-btn-border: none;
+            --nostrc-follow-btn-hover-border: none;
+            --nostrc-follow-btn-border-radius: 5px;
+            --nostrc-follow-btn-color: white !important;
+            color: white !important;
+
+            --nostrc-follow-btn-hover-bg: linear-gradient(23deg, #FE983B, #CE66FF);
+        }
+
+        nostr-zap {
+            --nostrc-zap-btn-bg: rgb(156, 104, 6);
+            --nostrc-zap-btn-border: none;
+            --nostrc-zap-btn-hover-border: none;
+            --nostrc-zap-btn-border-radius: 5px;
+            --nostrc-zap-btn-color: white !important;
+            color: white !important;
+
+            --nostrc-zap-btn-hover-bg: rgb(156, 104, 6);
+        }
+    }
+}
+
 #not-working ol li+li {
     margin-top: 32px;
 }

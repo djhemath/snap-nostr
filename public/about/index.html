@@ -34,6 +34,17 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" />
     </noscript>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nostr-components@latest/dist/themes/dark.css" />
+
+    <script
+        type="module"
+        src="https://cdn.jsdelivr.net/npm/nostr-components@latest/dist/components/nostr-follow-button.es.js"
+    ></script>
+    <script
+        type="module"
+        src="https://cdn.jsdelivr.net/npm/nostr-components@latest/dist/components/nostr-zap.es.js"
+    ></script>
+
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
     <link rel="stylesheet" href="../static.css">
     <title>SnapNostr | About</title>
@@ -71,8 +82,19 @@
             </div>
         </article>
 
-        <aside>
+        <aside id="about-aside">
             <img src="../assets/images/snap-nostr.png" width="750" alt="a screenshot of SnapNostr's interface">
+            <div id="nostr-components">
+                <nostr-follow-button
+                    npub="npub1mxw6m5fvnnlgqhwqd29wv53kl55zhz5rwu0z95zxkm87kvqx5rzsdrg03e"
+                    text="Follow on Nostr"
+                    relays="wss://purplepag.es"
+                ></nostr-follow-button>
+                <nostr-zap 
+                    npub="npub1mxw6m5fvnnlgqhwqd29wv53kl55zhz5rwu0z95zxkm87kvqx5rzsdrg03e"
+                    text="Zap"
+                ></nostr-zap>
+            </div>
         </aside>
     </main>
 
